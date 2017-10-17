@@ -11,6 +11,7 @@ import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import AdminActivation from './components/auth/admin_activation';
 import ProtectedContent from './components/protected_content';
+import Search from './components/search';
 import AdminArea from './components/admin_area';
 import RequireAuth from './components/auth/require_auth';
 import RequireAdmin from './components/auth/require_admin';
@@ -19,9 +20,6 @@ import reducers from './reducers';
 import { AUTH_USER } from './actions/types';
 import { SET_ADMIN_PRIVILEGES } from './actions/types';
 import jwt_decode from 'jwt-decode';
-
-
-
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -37,7 +35,6 @@ if (token) {
   if (decoded_token.role == 'admin') {
     store.dispatch({ type: SET_ADMIN_PRIVILEGES });
   }
-
 }
 
 
@@ -50,6 +47,7 @@ ReactDOM.render(
         <Route path="signout" component={Signout} />
         <Route path="signup" component={Signup} />
         <Route path="protected_content" component={RequireAuth(ProtectedContent)} />
+        <Route path="search" component={RequireAuth(Search)} />
         <Route path="admin_area" component={RequireAdmin(AdminArea)} />
         <Route path="admin_activation" component={RequireAdmin(AdminActivation)} />
       </Route>

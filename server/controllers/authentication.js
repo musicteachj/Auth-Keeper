@@ -7,25 +7,16 @@ function tokenForUser(user) {
   return jwt.encode({ sub: user.id, iat: timestamp, role: user.role }, config.secret);
 }
 
-exports.signin = function(req, res, next) {
+exports.signin = function(req, res) {
   // User has been authenticated, send back token
   res.send({ token: tokenForUser(req.user) });
 }
 
-exports.findUsers = function(req, res) {
-  console.log('test');
-  var query = User.find()
-  query.exec(function(err, person) {
-   console.log('Results back from db');
-   return res.send(person);
-  })
-}
 exports.signup = function(req, res, next) {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password, fullName, city, bio, skill, showEmail } = req.body;
 
-  if (!email || !password) {
-    return res.status(422).send({ error: 'You must provide email and password'});
+  if (!email || !password || !fullName || !city || !bio || !skill) {
+    return res.status(422).send({ error: 'All fields are required'});
   }
 
   // See if a user with the given email exists
@@ -39,8 +30,13 @@ exports.signup = function(req, res, next) {
 
     // If a user with email does NOT exist, create and save user record
     const user = new User({
-      email: email,
-      password: password,
+      email,
+      password,
+      fullName,
+      city,
+      bio,
+      skill,
+      showEmail,
       role: 'user'
     });
 
@@ -52,14 +48,6 @@ exports.signup = function(req, res, next) {
     });
   });
 }
-
-
-
-
-
-
-
-
 
 exports.admin_activation = function(req, res, next) {
   const email = req.body.email;

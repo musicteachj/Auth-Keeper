@@ -6,7 +6,11 @@ import {
   AUTH_ERROR,
   FETCH_MESSAGE,
   FETCH_ADMIN_MESSAGE,
-  SET_ADMIN_PRIVILEGES
+  SET_ADMIN_PRIVILEGES,
+  FETCH_PROFILE,
+  UPDATE_PROFILE,
+  FETCH_USERS,
+  UPDATE_PROFILE_IMAGE
 } from './types';
 
 const jwt_decode = require('jwt-decode');
@@ -25,11 +29,8 @@ export function signinUser({ email, password }) {
         // decode token for info on the user
         let decoded_token_data = jwt_decode(response.data.token);
 
-
         // - Save the JWT token
         localStorage.setItem('token', response.data.token);
-
-
 
         // - redirect to the appropriate route
         if(decoded_token_data.role == 'user') {
@@ -43,8 +44,6 @@ export function signinUser({ email, password }) {
         else {
           browserHistory.push('/');
         }
-
-
       })
       .catch(() => {
         // If request is bad...
@@ -54,9 +53,9 @@ export function signinUser({ email, password }) {
   }
 }
 
-export function signupUser({ email, password }) {
+export function signupUser({ email, password, fullName, city, bio, skill, showEmail }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/signup`, { email, password })
+    axios.post(`${ROOT_URL}/signup`, { email, password, fullName, city, bio, skill, showEmail })
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
@@ -80,9 +79,6 @@ export function activateAdmin({ email, password }) {
       .catch(response => dispatch(authError(response.data.error)));
   }
 }
-
-
-
 
 export function authError(error) {
   return {
@@ -125,6 +121,62 @@ export function fetchAdminMessage() {
         dispatch({
           type: FETCH_ADMIN_MESSAGE,
           payload: response.data.message
+        });
+      });
+  }
+}
+
+export function getProfile() {
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/profile`, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_PROFILE,
+          payload: response.data
+        });
+      })
+  }
+}
+
+export function updateProfile(data) {
+  return function(dispatch) {
+    axios.put(`${ROOT_URL}/profile`, data, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: UPDATE_PROFILE,
+          payload: response.data
+        });
+      });
+  }
+}
+
+export function findUsers(query) {
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/users?city=${query.city || ''}&&skill=${query.skill || ''}`, {
+      headers: { authorization: localStorage.getItem('token') },
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_USERS,
+          payload: response.data
+        });
+      });
+  }
+}
+
+export function updateProfileImage(imageUrl) {
+  return function(dispatch) {
+    axios.put(`${ROOT_URL}/profile/image`, { imageUrl }, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: UPDATE_PROFILE_IMAGE,
+          payload: response.data
         });
       });
   }

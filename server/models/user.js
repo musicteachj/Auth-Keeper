@@ -5,8 +5,28 @@ const bcrypt = require('bcrypt-nodejs');
 // model definition
 const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
-  password: String,
-  role: String
+  password: { type: String, required: true },
+  role: {
+    type: String,
+    required: true,
+    enum: ['admin', 'user'],
+    default: 'user'
+  },
+  fullName: { type: String, required: true },
+  city: { type: String, required: true },
+  bio: { type: String, required: true },
+  skill: {
+    type: String,
+    required: true,
+    enum: ['beginner', 'intermediate', 'advanced'],
+    default: 'beginner',
+  },
+  showEmail: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+  imageUrl: String
 });
 
 
@@ -40,8 +60,15 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   });
 }
 
+userSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  }
+});
+
 // Create the model class
-const ModelClass = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 // Export the model
-module.exports = ModelClass;
+module.exports = User;

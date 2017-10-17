@@ -16,6 +16,9 @@ class Header extends Component {
           <Link className="nav-link" to="/admin_activation">Admin Activation</Link>
         </li>,
         <li className="nav-item" key={4}>
+          <Link className="nav-link" to="/search">Search</Link>
+        </li>,
+        <li className="nav-item" key={5}>
           <Link className="nav-link" to="/signout">Sign Out</Link>
         </li>
       ];
