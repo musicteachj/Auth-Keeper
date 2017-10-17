@@ -24,7 +24,7 @@ app.options('*', cors());
 // Application Routes
 router(app);
 app.get('/', function(req, res) {
-  res.sendFile('./dist/index.html');
+  res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 
 // Server Setup
