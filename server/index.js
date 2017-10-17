@@ -7,6 +7,7 @@ const app = express();
 const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 // DB Setup
 mongoose.connect('mongodb://dbusername:password@ds121665.mlab.com:21665/jambook');
