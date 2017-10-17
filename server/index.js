@@ -7,6 +7,7 @@ const app = express();
 const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 // DB Setup
 mongoose.connect('mongodb://localhost:auth/auth');
@@ -15,7 +16,7 @@ mongoose.connect('mongodb://localhost:auth/auth');
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));  //parse bodies of all incoming requests into JSON
 
-app.use(express.static('dist'));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 // Allow cross-origin resource sharing
 app.use(cors());
@@ -24,7 +25,7 @@ app.options('*', cors());
 // Application Routes
 router(app);
 app.get('/', function(req, res) {
-  res.sendFile('./dist/index.html');
+  res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 
 // Server Setup
