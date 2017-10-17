@@ -15,13 +15,17 @@ mongoose.connect('mongodb://localhost:auth/auth');
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));  //parse bodies of all incoming requests into JSON
 
+app.use(express.static('dist'));
+
 // Allow cross-origin resource sharing
 app.use(cors());
 app.options('*', cors());
 
 // Application Routes
 router(app);
-
+app.get('/', function(req, res) {
+  res.sendFile('./dist/index.html');
+});
 
 // Server Setup
 const port = process.env.PORT || 3090;

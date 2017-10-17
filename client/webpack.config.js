@@ -1,20 +1,27 @@
+const path = require('path');
+const DIST_DIR = path.resolve(__dirname, "../server/dist");
+const SRC_DIR = path.resolve(__dirname, "src");
+
 module.exports = {
   entry: [
-    './src/index.js'
+    SRC_DIR + '/index.js'
   ],
   output: {
-    path: __dirname,
+    path: DIST_DIR,
     publicPath: '/',
     filename: 'bundle.js'
   },
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel'
-    }]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
+    loaders: [
+      {
+        test: /\.js?/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ["react", "es2015", "stage-0"]
+        }
+      }
+    ]
   },
   devServer: {
     historyApiFallback: true,
