@@ -1,0 +1,24 @@
+{
+  "name": "auth-keeper",
+  "version": "1.0.0",
+  "description": "Authkeeper ======",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "postinstall": "npm run install:server && npm run install:client",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/musicteachj/Auth-Keeper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/musicteachj/Auth-Keeper/issues"
+  },
+  "homepage": "https://github.com/musicteachj/Auth-Keeper#readme"
+}

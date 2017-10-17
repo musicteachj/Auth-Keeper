@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // DB Setup
-mongoose.connect('mongodb://localhost:auth/auth');
+mongoose.connect('mongodb://dbusername:password@ds121665.mlab.com:21665/jambook');
 
 // App Setup
 app.use(morgan('combined'));
