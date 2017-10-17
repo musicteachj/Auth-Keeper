@@ -16,7 +16,7 @@ mongoose.connect('mongodb://dbusername:password@ds121665.mlab.com:21665/jambook'
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));  //parse bodies of all incoming requests into JSON
 
-app.use(express.static('dist'));
+app.use(express.static('./dist'));
 
 // Allow cross-origin resource sharing
 app.use(cors());
