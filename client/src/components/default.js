@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default () => <div className="default-content">default landing content goes here...</div>;
+export default () => <div className="default-content">HEY HEY HEY</div>;
